@@ -9,6 +9,8 @@
 
 > Socket.IO Connector -> Socket.IO Listener -> Payload
 
+#Note: Now this lib under development
+
 
 # 1. Socket.IO Emitter 
 
