@@ -61,11 +61,11 @@ module.exports = function(RED) {
 
       node.on('input', function(msg){
         node.socketId = msg.payload.socketId;
-        node.socketId = msg.payload.eventName;
+        node.eventName = msg.payload.eventName;
         if(msg.payload.status == 'connected'){
           node.status({fill:'green',shape:'dot',text:'listening'});
           if( !sockets[node.socketId].hasListeners(node.eventName) ){
-            sockets[node.socketId].on(msg.payload.eventName, function(data){
+            sockets[node.socketId].on(node.eventName, function(data){
               node.send( {payload:data} );
             });
           }
