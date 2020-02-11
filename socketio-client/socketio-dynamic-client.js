@@ -107,7 +107,7 @@ module.exports = function(RED) {
         node.eventName = msg.payload.eventName;
         node.message = msg.payload.message;
         if(msg.payload.message != null){
-               sockets[node.socketId].emit(node.eventName, JSON.parse(node.message || '{}') );
+               sockets[node.socketId].emit(node.eventName, node.message || '' );
         }else if(msg.payload.eventName == null){
           node.status({fill:'red',shape:'ring',text:'event null'});    
         }else if(msg.payload.message == null){
