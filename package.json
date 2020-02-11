@@ -1,6 +1,6 @@
 {
   "name": "node-red-contrib-socketio-client-with-dynamic-listener-emitter",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Node Red client to work with socket.io server",
   "main": "index.js",
   "scripts": {
