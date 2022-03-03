@@ -3,28 +3,17 @@ module.exports = function(RED) {
   //var io = require('socket.io-client');
   var sockets = {};
 
-  /* sckt config */
-    function SocketIOConfig(n) {
-      RED.nodes.createNode(this, n);
-      this.host = n.host;
-      this.port = n.port;
-      this.path = n.path;
-    }
-    RED.nodes.registerType('socketio-config', SocketIOConfig);
-
   /* sckt connector*/
-    function SocketIOConnector(n){
+    function ReskillAIConnector(n){
       RED.nodes.createNode(this, n);
-      this.server = RED.nodes.getNode(n.server);
-      this.server.namespace = n.namespace;
       this.name = n.name;
       var node = this;
-
       
       if(sockets[node.id]){ delete sockets[node.id];}
-      sockets[node.id] = connect(this.server);
+      sockets[node.id] = connect();
         
       sockets[node.id].on('connect', function(){
+        sockets[node.id].emit('user','node-red')
         node.send({ payload:{socketId:node.id, status:'connected'} });
         node.status({fill:"green",shape:"dot", text:"connected"});
       });
@@ -48,28 +37,23 @@ module.exports = function(RED) {
         done();
       }); 
     }
-    RED.nodes.registerType('socketio-connector', SocketIOConnector);
-
-  /* sckt listener*/
-    function SocketIOListener(n){
+    RED.nodes.registerType('reskilai-connector', ReskillAIConnector);
+    /* inference listener*/
+    function InferenceListener(n){
       RED.nodes.createNode(this, n);
       this.name = n.name;
-      this.eventName = n.eventname;
       this.socketId = null;
-
       var node = this;
-
       node.on('input', function(msg){
         node.socketId = msg.payload.socketId;
-        node.eventName = msg.payload.eventName;
         if(msg.payload.status == 'connected'){
           node.status({fill:'green',shape:'dot',text:'listening'});
-          if( !sockets[node.socketId].hasListeners(node.eventName) ){
-            sockets[node.socketId].on(node.eventName, function(data){
+          if( !sockets[node.socketId].hasListeners('inference') ){
+            sockets[node.socketId].on('inference', function(data){
               node.send( {payload:data} );
             });
           }
-        }else{
+        } else {
           node.status({fill:'red',shape:'ring',text:'disconnected'});
           if( sockets[node.socketId].hasListeners(node.eventName) ){
             sockets[node.socketId].removeListener(node.eventName, function(){});
@@ -78,7 +62,6 @@ module.exports = function(RED) {
       });
 
       node.on('close', function(done) {
-        
         if( sockets[node.socketId].hasListeners(node.eventName) ){
           sockets[node.socketId].removeListener(node.eventName, function(){
             node.status({});
@@ -91,52 +74,11 @@ module.exports = function(RED) {
             
       }); 
     }
-    RED.nodes.registerType('socketio-listener', SocketIOListener);
+    RED.nodes.registerType('reskillai-inference', InferenceListener);
 
-  /* sckt emitter*/
-    function SocketIOEmitter(n){
-      RED.nodes.createNode(this, n);
-      this.name = n.name;
-     /*    this.eventName = n.eventname;*/
-      this.socketId = null;
-
-      var node = this;
-
-      node.on('input', function(msg){
-        node.socketId = msg.payload.socketId;
-        node.eventName = msg.payload.eventName;
-        node.message = msg.payload.message;
-        if(msg.payload.message != null){
-               sockets[node.socketId].emit(node.eventName, node.message || '' );
-        }else if(msg.payload.eventName == null){
-          node.status({fill:'red',shape:'ring',text:'event null'});    
-        }else if(msg.payload.message == null){
-          node.status({fill:'red',shape:'ring',text:'message null'});    
-        }
-      });
-    }
-    RED.nodes.registerType('socketio-emitter', SocketIOEmitter);
-
-  function connect(config, force) {
-    var uri = config.host;
-    var sckt;
+  function connect() {
+    var uri = 'https://reskillai.local:12345';
     var options = {};
-
-    if(config.port != ''){
-      uri += ':' +  config.port;
-    }
-    if(config.path != ''){
-      options.path = config.path;
-    }
-    if(config.namespace){
-      uri += '/' +  config.namespace;
-      sckt = require('socket.io-client').connect( uri, options );
-    }else{
-      sckt = require('socket.io-client')( uri, options );
-    }
-    return sckt;
-  }
-
-  function disconnect(config) {
+    return require('socket.io-client')( uri, options );;
   }
 }

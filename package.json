@@ -1,27 +1,27 @@
 {
-  "name": "node-red-contrib-socketio-client-with-dynamic-listener-emitter",
-  "version": "0.1.5",
-  "description": "Node Red client to work with socket.io server",
+  "name": "@ImJustChew/node-red-myreskillai",
+  "version": "0.0.1",
+  "description": "A node-red node to interact with MyReskillAI",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/sudheepmaveli/node-red-contrib-socketio-client-with-dynamic-listener-emitter.git"
+    "url": "https://github.com/ImJustChew/node-red-myreskillai.git"
   },
   "keywords": [
     "node-red",
     "socket.io"
   ],
-  "author": "Sudheepmaveli",
+  "author": "ImJustChew",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/sudheepmaveli/node-red-contrib-socketio-client-with-dynamic-listener-emitter/issues"
+    "url": "https://github.com/sudheepmaveli/node-red-myreskillai/issues"
   },
-  "homepage": "https://github.com/sudheepmaveli/node-red-contrib-socketio-client-with-dynamic-listener-emitter#readme",
+  "homepage": "https://github.com/sudheepmaveli/node-red-myreskillai#readme",
   "dependencies": {
-    "socket.io-client": "^1.7.2"
+    "socket.io-client": "^4.4.1"
   },
   "node-red": {
     "nodes": {
