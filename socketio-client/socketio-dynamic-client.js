@@ -1,6 +1,6 @@
 module.exports = function(RED) {
   'use strict';
-  //var io = require('socket.io-client');
+  // var io = require('socket.io-client');
   var sockets = {};
 
   /* sckt connector*/
@@ -38,7 +38,7 @@ module.exports = function(RED) {
       }); 
     }
     RED.nodes.registerType('reskilai-connector', ReskillAIConnector);
-    
+
     /* inference listener*/
     function InferenceListener(n){
       RED.nodes.createNode(this, n);
@@ -78,7 +78,7 @@ module.exports = function(RED) {
     RED.nodes.registerType('reskillai-inference', InferenceListener);
 
   function connect() {
-    var uri = 'https://localhost:12345'; //TODO: FOR ACTUAL DEPLOYMENT USE RESKILLAI>LOCAL
+    var uri = 'ws://localhost:12345'; //TODO: FOR ACTUAL DEPLOYMENT USE RESKILLAI>LOCAL
     var options = {};
     return require('socket.io-client')( uri, options );;
   }
