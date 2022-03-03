@@ -38,6 +38,7 @@ module.exports = function(RED) {
       }); 
     }
     RED.nodes.registerType('reskilai-connector', ReskillAIConnector);
+    
     /* inference listener*/
     function InferenceListener(n){
       RED.nodes.createNode(this, n);
@@ -77,7 +78,7 @@ module.exports = function(RED) {
     RED.nodes.registerType('reskillai-inference', InferenceListener);
 
   function connect() {
-    var uri = 'https://reskillai.local:12345';
+    var uri = 'https://localhost:12345'; //TODO: FOR ACTUAL DEPLOYMENT USE RESKILLAI>LOCAL
     var options = {};
     return require('socket.io-client')( uri, options );;
   }

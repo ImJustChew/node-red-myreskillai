@@ -12,27 +12,12 @@
       outputs: 1,
       color: "#D8BFD8",
       icon: "socketio.png",
-      paletteLabel: "reskilai connector",
+      paletteLabel: "ReskillAI Connector",
       defaults: {},
       label: function() {
           return this.name || "ReskillAI Connector";
       }
     });
-  </script>
-
-  <script type="text/x-red" data-template-name="reskillai-connector">
-    <div class="form-row">
-      <label for="node-input-server"><i class="fa fa-globe"></i> Server</label>
-      <input type="text" id="node-input-server" placeholder="Server">
-    </div>
-    <div class="form-row">
-      <label for="node-input-namespace"><i class="icon-tasks"></i> namespace</label>
-      <input type="text" id="node-input-namespace" placeholder="Namespace">
-    </div>
-    <div class="form-row">
-      <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
-      <input type="text" id="node-input-name" placeholder="Name">
-    </div>
   </script>
 
   <script type="text/x-red" data-help-name="reskillai-connector">
@@ -50,7 +35,7 @@
       outputs: 1,
       color: "#D8BFD8",
       icon: "socketio.png",
-      paletteLabel: "inference listener",
+      paletteLabel: "Inference Listener",
       defaults: {},
       label: function() {
           return ( this.name || this.eventname ) || "Inference Listener";
@@ -58,6 +43,6 @@
     });
   </script>
 
-  <script type="text/x-red" data-help-name="inference-listener">
+  <script type="text/x-red" data-help-name="reskillai-inference">
       <p>Inference Listener</p>
   </script>
