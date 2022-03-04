@@ -55,7 +55,7 @@
       outputs: 0,
       color: "#D8BFD8",
       icon: "socketio.png",
-      paletteLabel: "Inference Stop",
+      paletteLabel: "Inference Toggle",
       defaults: {
         project: {
           value: ""
@@ -76,7 +76,7 @@
         }
       },
       label: function() {
-          return ( this.name || this.eventname ) || "Inference Stop";
+          return ( this.name || this.eventname ) || "Inference Toggle";
       }
     });
   </script>
@@ -104,7 +104,7 @@
     </div>
   </script>
 
-  <script type="text/x-red" data-help-name="inference-start">
+  <script type="text/x-red" data-help-name="inference-toggle">
       <p>Inference Toggle</p>
       <p>It configures the inference settings and starts/stops inference</p>
   </script>
