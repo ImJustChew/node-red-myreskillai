@@ -60,8 +60,11 @@ module.exports = function (RED) {
       if (msg.payload.status == 'connected') {
         node.status({ fill: 'green', shape: 'dot', text: 'listening' });
         if (!sockets[node.socketId].hasListeners('inference')) {
-          sockets[node.socketId].on('inference', function (data) {
-            node.send({ payload: "data:image/png;base64," + arrayBufferToBase64(data) });
+          sockets[node.socketId].on('inference', function ({image, data}) {
+            node.send([
+              { payload: "data:image/png;base64," + arrayBufferToBase64(image) }, 
+              { payload: data}
+            ]);
           });
         }
       } else {
