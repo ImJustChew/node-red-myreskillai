@@ -87,6 +87,50 @@ module.exports = function (RED) {
   }
   RED.nodes.registerType('reskillai-inference', InferenceListener);
 
+  function InferenceStart(n){
+    RED.nodes.createNode(this, n);
+    this.name = n.name;
+   /*    this.eventName = n.eventname;*/
+    this.socketId = null;
+
+    var node = this;
+
+    node.on('input', function(msg){
+      node.socketId = msg.payload.socketId;
+      if(msg.payload.message != null){
+             sockets[node.socketId].emit('inferSettings', {
+              project: msg.payload.project,
+              model: msg.payload.model,
+              classes: "background,"+ msg.payload.classes,
+              imageResize: msg.payload.imageResize, 
+              detectionThreshold: msg.payload.detectionThreshold,
+             });
+             sockets[node.socketId].emit("start","inference")
+        node.status({fill:'green',shape:'dot',text:'Started'});    
+      } else if(msg.payload.model == null || msg.payload.model == ""){
+        node.status({fill:'red',shape:'ring',text:'Empty model'});    
+      }
+    });
+  }
+  RED.nodes.registerType('inference-start', InferenceStart);
+
+  function InferenceStop(n){
+    RED.nodes.createNode(this, n);
+    this.name = n.name;
+   /*    this.eventName = n.eventname;*/
+    this.socketId = null;
+
+    var node = this;
+
+    node.on('input', function(msg){
+      node.socketId = msg.payload.socketId;
+      sockets[node.socketId].emit("stop","inference")
+      node.status({fill:'green',shape:'dot',text:'Stopped'});    
+    });
+  }
+  RED.nodes.registerType('inference-stop', InferenceStop);
+
+
   function connect() {
     var uri = 'ws://localhost:12345'; //TODO: FOR ACTUAL DEPLOYMENT USE RESKILLAI>LOCAL
     var options = {};

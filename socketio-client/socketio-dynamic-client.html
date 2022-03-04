@@ -46,3 +46,86 @@
   <script type="text/x-red" data-help-name="reskillai-inference">
       <p>Inference Listener</p>
   </script>
+  
+  <script type="text/javascript">
+    /*global RED*/
+    RED.nodes.registerType('inference-start', {
+      category: 'function',
+      inputs: 1,
+      outputs: 0,
+      color: "#D8BFD8",
+      icon: "socketio.png",
+      paletteLabel: "Inference Start",
+      defaults: {
+        project: {
+          value: ""
+        },
+        model: {
+          value: ""
+        }, 
+        classes: {
+          value: ""
+        }, 
+        imageResize: {
+          value: 0,
+          validate:RED.validators.number() 
+        }, 
+        detectionThreshold: {
+          value: 0,
+          validate:RED.validators.number() 
+        }
+      },
+      label: function() {
+          return ( this.name || this.eventname ) || "Inference Start";
+      }
+    });
+  </script>
+
+  <script type="text/x-red" data-template-name="inference-start">
+     <div class="form-row">
+      <label for="node-input-name"><i class="icon-tasks"></i>Project</label>
+      <input type="text" id="node-input-project" placeholder="Project">
+    </div>
+    <div class="form-row">
+      <label for="node-input-message">Model</label>
+      <input type="text" id="node-input-model" placeholder="Model In Project">
+    </div>
+    <div class="form-row">
+      <label for="node-input-message">Classes</label>
+      <input type="text" id="node-input-model" placeholder="Seperate each class with comma (,)">
+    </div>
+    <div class="form-row">
+      <label for="node-input-message">Image Resize</label>
+      <input type="text" id="node-input-model" placeholder="Image Size">
+    </div>
+    <div class="form-row">
+      <label for="node-input-message">Detection Threshold</label>
+      <input type="text" id="node-input-model" placeholder="Threshold">
+    </div>
+  </script>
+
+  <script type="text/x-red" data-help-name="inference-start">
+      <p>Inference Start</p>
+      <p>It configures the inference settings and starts inference</p>
+  </script>
+
+  <script type="text/javascript">
+    /*global RED*/
+    RED.nodes.registerType('inference-stop', {
+      category: 'function',
+      inputs: 1,
+      outputs: 0,
+      color: "#D8BFD8",
+      icon: "socketio.png",
+      paletteLabel: "Inference Stop",
+      defaults: {},
+      label: function() {
+          return ( this.name || this.eventname ) || "Inference Stop";
+      }
+    });
+  </script>
+
+<script type="text/x-red" data-help-name="inference-stop">
+  <p>Inference Stop</p>
+  <p>It stops the inference process</p>
+</script>
