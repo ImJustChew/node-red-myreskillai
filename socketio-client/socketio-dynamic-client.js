@@ -60,10 +60,10 @@ module.exports = function (RED) {
       if (msg.payload.status == 'connected') {
         node.status({ fill: 'green', shape: 'dot', text: 'listening' });
         if (!sockets[node.socketId].hasListeners('inference')) {
-          sockets[node.socketId].on('inference', function ({image, data}) {
+          sockets[node.socketId].on('inference', function ({ image, data }) {
             node.send([
-              { payload: "data:image/png;base64," + arrayBufferToBase64(image) }, 
-              { payload: data}
+              { payload: "data:image/png;base64," + arrayBufferToBase64(image) },
+              { payload: data }
             ]);
           });
         }
@@ -90,49 +90,38 @@ module.exports = function (RED) {
   }
   RED.nodes.registerType('reskillai-inference', InferenceListener);
 
-  function InferenceStart(n){
+  function InferenceToggle(n) {
     RED.nodes.createNode(this, n);
     this.name = n.name;
-   /*    this.eventName = n.eventname;*/
+    /*    this.eventName = n.eventname;*/
     this.socketId = null;
 
     var node = this;
 
-    node.on('input', function(msg){
-      node.socketId = msg.socketId;
-      if(msg.payload.message != null){
-             sockets[node.socketId].emit('inferSettings', {
-              project: msg.payload.project,
-              model: msg.payload.model,
-              classes: "background,"+ msg.payload.classes,
-              imageResize: msg.payload.imageResize, 
-              detectionThreshold: msg.payload.detectionThreshold,
-             });
-             sockets[node.socketId].emit("start","inference")
-        node.status({fill:'green',shape:'dot',text:'Started'});    
-      } else if(msg.payload.model == null || msg.payload.model == ""){
-        node.status({fill:'red',shape:'ring',text:'Empty model'});    
+    node.on('input', function (msg) {
+      if (msg.payload != null) {
+        if(msg.payload?.socketId && msg.payload?.socketId == 'connected') node.socketId = msg.payload.socketId;
+        if (!node.socketId) return;
+        if(msg.payload == 'start'){
+          sockets[node.socketId].emit('inferSettings', {
+            project: node.project,
+            model: node.model,
+            classes: "background," + node.classes,
+            imageResize: node.imageResize,
+            detectionThreshold: node.detectionThreshold,
+          });
+          sockets[node.socketId].emit("start", "inference")
+          node.status({ fill: 'green', shape: 'dot', text: 'Started' });
+        } else if (!msg.payload == 'stop') {
+          sockets[node.socketId].emit("stop", "inference")
+          node.status({ fill: 'red', shape: 'ring', text: 'Stopped' });
+        }
+      } else {
+        node.status({ fill: 'red', shape: 'ring', text: 'Config Error' });
       }
     });
   }
-  RED.nodes.registerType('inference-start', InferenceStart);
-
-  function InferenceStop(n){
-    RED.nodes.createNode(this, n);
-    this.name = n.name;
-   /*    this.eventName = n.eventname;*/
-    this.socketId = null;
-
-    var node = this;
-
-    node.on('input', function(msg){
-      node.socketId = msg.socketId;
-      sockets[node.socketId].emit("stop","inference")
-      node.status({fill:'green',shape:'dot',text:'Stopped'});    
-    });
-  }
-  RED.nodes.registerType('inference-stop', InferenceStop);
-
+  RED.nodes.registerType('inference-toggle', InferenceToggle);
 
   function connect() {
     var uri = 'ws://localhost:12345'; //TODO: FOR ACTUAL DEPLOYMENT USE RESKILLAI>LOCAL
