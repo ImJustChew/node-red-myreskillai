@@ -100,7 +100,10 @@ module.exports = function (RED) {
 
     node.on('input', function (msg) {
       if (msg.payload != null) {
-        if(msg.payload?.socketId && msg.payload?.socketId == 'connected') node.socketId = msg.payload.socketId;
+        if(msg.payload?.socketId && msg.payload?.status == 'connected') {
+          node.socketId = msg.payload.socketId;
+          return;
+        }
         if (!node.socketId) return;
         if(msg.payload == 'start'){
           sockets[node.socketId].emit('inferSettings', {
@@ -112,7 +115,7 @@ module.exports = function (RED) {
           });
           sockets[node.socketId].emit("start", "inference")
           node.status({ fill: 'green', shape: 'dot', text: 'Started' });
-        } else if (!msg.payload == 'stop') {
+        } else if (msg.payload == 'stop') {
           sockets[node.socketId].emit("stop", "inference")
           node.status({ fill: 'red', shape: 'ring', text: 'Stopped' });
         }

@@ -1,6 +1,6 @@
 {
   "name": "@imjustchew/node-red-myreskillai",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "A node-red node to interact with MyReskillAI",
   "main": "index.js",
   "scripts": {
