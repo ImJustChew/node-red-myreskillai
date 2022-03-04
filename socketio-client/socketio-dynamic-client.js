@@ -14,19 +14,19 @@ module.exports = function (RED) {
 
     sockets[node.id].on('connect', function () {
       sockets[node.id].emit('user', 'node-red')
-      node.send({ payload: { socketId: node.id, status: 'connected' } });
+      node.send({ socketId: node.id, payload: { socketId: node.id, status: 'connected' } });
       node.status({ fill: "green", shape: "dot", text: "connected" });
     });
 
     sockets[node.id].on('disconnect', function () {
-      node.send({ payload: { socketId: node.id, status: 'disconnected' } });
+      node.send({ socketId: node.id, payload: { socketId: node.id, status: 'disconnected' } });
       node.status({ fill: 'red', shape: 'ring', text: 'disconnected' });
     });
 
     sockets[node.id].on('connect_error', function (err) {
       if (err) {
         node.status({ fill: 'red', shape: 'ring', text: 'disconnected' });
-        node.send({ payload: { socketId: node.id, status: 'disconnected' } });
+        node.send({ socketId: node.id, payload: { socketId: node.id, status: 'disconnected' } });
         //node.error(err);
       }
     });
@@ -56,7 +56,7 @@ module.exports = function (RED) {
     this.socketId = null;
     var node = this;
     node.on('input', function (msg) {
-      node.socketId = msg.payload.socketId;
+      node.socketId = msg.socketId;
       if (msg.payload.status == 'connected') {
         node.status({ fill: 'green', shape: 'dot', text: 'listening' });
         if (!sockets[node.socketId].hasListeners('inference')) {
@@ -99,7 +99,7 @@ module.exports = function (RED) {
     var node = this;
 
     node.on('input', function(msg){
-      node.socketId = msg.payload.socketId;
+      node.socketId = msg.socketId;
       if(msg.payload.message != null){
              sockets[node.socketId].emit('inferSettings', {
               project: msg.payload.project,
@@ -126,7 +126,7 @@ module.exports = function (RED) {
     var node = this;
 
     node.on('input', function(msg){
-      node.socketId = msg.payload.socketId;
+      node.socketId = msg.socketId;
       sockets[node.socketId].emit("stop","inference")
       node.status({fill:'green',shape:'dot',text:'Stopped'});    
     });

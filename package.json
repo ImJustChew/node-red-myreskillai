@@ -1,5 +1,5 @@
 {
-  "name": "@ImJustChew/node-red-myreskillai",
+  "name": "@imjustchew/node-red-myreskillai",
   "version": "0.0.4",
   "description": "A node-red node to interact with MyReskillAI",
   "main": "index.js",
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ImJustChew/node-red-myreskillai.git"
+    "url": "git+https://github.com/ImJustChew/node-red-myreskillai.git"
   },
   "keywords": [
     "node-red",
