@@ -67,12 +67,10 @@
           value: ""
         }, 
         imageResize: {
-          value: 0,
-          validate:RED.validators.number() 
+          value: 0
         }, 
         detectionThreshold: {
-          value: 0,
-          validate:RED.validators.number() 
+          value: 0
         }
       },
       label: function() {
@@ -83,24 +81,24 @@
 
   <script type="text/x-red" data-template-name="inference-toggle">
      <div class="form-row">
-      <label for="node-input-name"><i class="icon-tasks"></i>Project</label>
+      <label for="node-input-project"><i class="icon-tasks"></i>Project</label>
       <input type="text" id="node-input-project" placeholder="Project">
     </div>
     <div class="form-row">
-      <label for="node-input-message">Model</label>
+      <label for="node-input-model">Model</label>
       <input type="text" id="node-input-model" placeholder="Model In Project">
     </div>
     <div class="form-row">
-      <label for="node-input-message">Classes</label>
+      <label for="node-input-classes">Classes</label>
       <input type="text" id="node-input-classes" placeholder="Seperate each class with comma (,)">
     </div>
     <div class="form-row">
-      <label for="node-input-message">Image Resize</label>
-      <input type="text" id="node-input-image-resize" placeholder="Image Size">
+      <label for="node-input-image-resize">Image Resize</label>
+      <input type="text" id="node-input-imageResize" placeholder="Image Size">
     </div>
     <div class="form-row">
-      <label for="node-input-message">Detection Threshold</label>
-      <input type="text" id="node-input-detection-threshold" placeholder="Threshold">
+      <label for="node-input-detection-threshold">Detection Threshold</label>
+      <input type="text" id="node-input-detectionThreshold" placeholder="Threshold">
     </div>
   </script>
 

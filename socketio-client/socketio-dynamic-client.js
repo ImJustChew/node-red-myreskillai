@@ -95,7 +95,11 @@ module.exports = function (RED) {
     this.name = n.name;
     /*    this.eventName = n.eventname;*/
     this.socketId = null;
-
+    this.project = n.project;
+    this.model = n.model;
+    this.classes = n.classes;
+    this.imageResize = n.imageResize;
+    this.detectionThreshold = n.detectionThreshold;
     var node = this;
 
     node.on('input', function (msg) {
