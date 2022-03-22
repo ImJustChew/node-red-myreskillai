@@ -131,7 +131,7 @@ module.exports = function (RED) {
   RED.nodes.registerType('inference-toggle', InferenceToggle);
 
   function connect() {
-    var uri = 'wss://localhost:12345'; //TODO: FOR ACTUAL DEPLOYMENT USE RESKILLAI>LOCAL
+    var uri = 'wss://reskillai.local:12345'; //TODO: FOR ACTUAL DEPLOYMENT USE RESKILLAI>LOCAL
     var options = {rejectUnauthorized: false};
     return require('socket.io-client')(uri, options);;
   }
